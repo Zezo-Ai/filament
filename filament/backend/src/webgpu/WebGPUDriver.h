@@ -17,7 +17,7 @@
 #ifndef TNT_FILAMENT_BACKEND_WEBGPUDRIVER_H
 #define TNT_FILAMENT_BACKEND_WEBGPUDRIVER_H
 
-#include "WebGPUHandles.h"
+#include "WebGPURenderTarget.h"
 #include "webgpu/WebGPUConstants.h"
 #include <backend/platforms/WebGPUPlatform.h>
 
@@ -29,6 +29,8 @@
 
 #include <utils/compiler.h>
 
+#include "SpdMipmapGenerator/SpdMipmapGenerator.h"
+#include <tsl/robin_map.h>
 #include <webgpu/webgpu_cpp.h>
 
 #include <cstdint>
@@ -70,12 +72,12 @@ private:
     WebGPUSwapChain* mSwapChain = nullptr;
     uint64_t mNextFakeHandle = 1;
     wgpu::CommandEncoder mCommandEncoder = nullptr;
-    std::vector<Handle<HwTexture>> mMipQueue;
     wgpu::TextureView mTextureView = nullptr;
     wgpu::RenderPassEncoder mRenderPassEncoder = nullptr;
     wgpu::CommandBuffer mCommandBuffer = nullptr;
-    WGPURenderTarget* mDefaultRenderTarget = nullptr;
-    WGPURenderTarget* mCurrentRenderTarget = nullptr;
+    WebGPURenderTarget* mDefaultRenderTarget = nullptr;
+    WebGPURenderTarget* mCurrentRenderTarget = nullptr;
+    spd::MipmapGenerator mMipMapGenerator;
 
     tsl::robin_map<uint32_t, wgpu::RenderPipeline> mPipelineMap;
 

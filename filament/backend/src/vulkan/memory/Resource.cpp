@@ -26,6 +26,8 @@ template ResourceType getTypeEnum<VulkanIndexBuffer>() noexcept;
 template ResourceType getTypeEnum<VulkanProgram>() noexcept;
 template ResourceType getTypeEnum<VulkanRenderTarget>() noexcept;
 template ResourceType getTypeEnum<VulkanSwapChain>() noexcept;
+template ResourceType getTypeEnum<VulkanStage::Segment>() noexcept;
+template ResourceType getTypeEnum<VulkanStageImage::Resource>() noexcept;
 template ResourceType getTypeEnum<VulkanRenderPrimitive>() noexcept;
 template ResourceType getTypeEnum<VulkanTexture>() noexcept;
 template ResourceType getTypeEnum<VulkanTextureState>() noexcept;
@@ -53,6 +55,12 @@ ResourceType getTypeEnum() noexcept {
     }
     if constexpr (std::is_same_v<D, VulkanSwapChain>) {
         return ResourceType::SWAP_CHAIN;
+    }
+    if constexpr (std::is_same_v<D, VulkanStage::Segment>) {
+        return ResourceType::STAGE_SEGMENT;
+    }
+    if constexpr (std::is_same_v<D, VulkanStageImage::Resource>) {
+        return ResourceType::STAGE_IMAGE;
     }
     if constexpr (std::is_same_v<D, VulkanRenderPrimitive>) {
         return ResourceType::RENDER_PRIMITIVE;
@@ -99,6 +107,10 @@ std::string getTypeStr(ResourceType type) {
             return "RenderTarget";
         case ResourceType::SWAP_CHAIN:
             return "SwapChain";
+        case ResourceType::STAGE_SEGMENT:
+            return "Stage::Segment";
+        case ResourceType::STAGE_IMAGE:
+            return "Stage::Image";
         case ResourceType::RENDER_PRIMITIVE:
             return "RenderPrimitive";
         case ResourceType::TEXTURE:
